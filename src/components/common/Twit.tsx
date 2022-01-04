@@ -11,17 +11,17 @@ const Twit = (props: any) => {
   });
 
   const likeHandler = async (ev: any) => {
-    let url = `${endpoints.twits.actions.like}`;
+    setLocalState({ liked: !localState.liked });
+    let url = `${endpoints.twits.actions.like(props.uuid)}`;
     console.log(url);
 
     const payload = {
-      email: localState.email,
-      password: localState.password,
+      state: localState.liked
     };
 
     try {
       const response: any = await axios.post(url, payload);
-      if (response.responsecode === 401) {
+      if (response.status === "error") {
         addToast(response.message, 'error');
       } else {
         addToast(response.message, 'error');
@@ -34,14 +34,14 @@ const Twit = (props: any) => {
   };
 
   const postCommentHandler = async (ev: any) => {
-    if (!isFormValidated('login-form')) {
+    if (!isFormValidated(`form-${props.uuid}-comment-box`)) {
       return;
     }
 
     ev.preventDefault();
     // setIsLoading(true);
     //if login success, get user detail
-    let url = `${endpoints.twits.actions.comment}`;
+    let url = `${endpoints.twits.actions.comment(props.uuid)}`;
     console.log(url);
 
     const payload = {

@@ -9,13 +9,14 @@ let endpoints = {
   twits: {
     manage: {
       create: `${BASE_URL}/twits/create-twit`,
-      fetch: `${BASE_URL}/twit/:postId`,
+      fetch: (postId: any) => `${BASE_URL}/twit/${postId}`,
       fetchAll: `${BASE_URL}/twits/list-twits`,
+      fetchComments: (postId: any) => `${BASE_URL}/twits/${postId}/list-comments`,
       delete: `${BASE_URL}/twits/delete-twit`,
     },
     actions: {
-      like: `${BASE_URL}/auth/login`,
-      comment: `${BASE_URL}/auth/login`,
+      like: (postId: any) => `${BASE_URL}/twits/${postId}/like`,
+      comment: (postId: any) => `${BASE_URL}/twits/${postId}/add-comment`,
     },
   },
 };
