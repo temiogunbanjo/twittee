@@ -30,7 +30,7 @@ const DashboardMain = () => {
             >
               <img
                 src=''
-                // alt='icon'
+                alt='icon'
               />
             </div>
           </div>

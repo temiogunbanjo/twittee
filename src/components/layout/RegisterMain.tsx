@@ -25,9 +25,9 @@ const Main = () => {
     display: 'block',
   };
 
-  const signIn = async (event: any) => {
+  const signUp = async (event: any) => {
     //login
-    if (!isFormValidated('login-form')) {
+    if (!isFormValidated('signup-form')) {
       return;
     }
 
@@ -43,22 +43,17 @@ const Main = () => {
     };
     try {
       const response = await axios.post(url, payload);
+      console.log({response});
       const tokenData: any = response.data;
 
       const tokenDataDetail = tokenData.detail;
       if (tokenData.status === 401) {
         addToast(tokenDataDetail, 'error');
+      } else {
+        addToast('User not found.', 'error');
+        //get user details
+        await getUserDetails(response);
       }
-
-      dispatch({
-        type: 'SET_TOKEN',
-        payload: tokenData.data.token,
-      });
-
-      setAuthToken(tokenData.data.token);
-
-      //get user details
-      await getUserDetails(response);
     } catch (error: any) {
       // console.log(error);
     } finally {
@@ -67,10 +62,10 @@ const Main = () => {
   };
 
   const getUserDetails = async (responseData: any) => {
-    const token = responseData.data.data.token;
-    const url = `${endpoints.auth.validateToken}/?token=${token}`;
+    // const token = responseData.data.data.token;
+    // const url = `${endpoints.auth.validateToken}/?token=${token}`;
 
-    console.log(token);
+    // console.log(token);
 
     try {
       const response: AxiosResponse<any> = await axios.post(url);
@@ -96,7 +91,7 @@ const Main = () => {
         style={{ minHeight: '100vh', backgroundColor: 'white' }}
       >
         <form
-          id='login-form'
+          id='signup-form'
           className='styled d-flex align-items-center justify-content-center border'
           style={{ flexDirection: 'column' }}
         >
@@ -166,7 +161,7 @@ const Main = () => {
             </label>
           </div>
 
-          <button onClick={signIn} className='action-btn'>
+          <button onClick={signUp} className='action-btn'>
             {isLoading ? <ButtonLoader /> : 'Register'}
           </button>
 
