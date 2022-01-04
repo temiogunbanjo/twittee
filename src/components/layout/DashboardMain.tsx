@@ -1,109 +1,62 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { addToast } from '../../utils/toastNotifications';
+import { endpoints } from '../../utils/urls';
+import Twit from '../common/Twit';
 
 const DashboardMain = () => {
+  const [twits, setTwits] = useState([]);
+
+  const fetchAllTwits = async () => {
+    let url = `${endpoints.twits.manage.fetchAll}`;
+    console.log(url);
+
+    try {
+      const response: any = await axios.get(url);
+      if (response.status === 'error') {
+        addToast(response.message, 'error');
+      } else {
+        addToast(response.message);
+        setTwits(response.payload);
+      }
+    } catch (error: any) {
+      addToast(error.message || error, 'error');
+    } finally {
+      // setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    (async () => {
+      await fetchAllTwits();
+    })();
+  }, []);
+
   return (
     <div className='dashboard-section-container'>
       <div className='dashboard-section'>
         <h2 className='content-heading' style={{ fontWeight: 700 }}>
-          My Dashboard
+          All Twits
         </h2>
         <div
           className='summary-container d-flex flex-row justify-content-around flex-wrap'
           style={{ marginTop: '42px' }}
         >
-          <div className='card flex-row p-3 m-2 align-items-end'>
-            <div className='card-body d-flex flex-column p-0 me-1 align-self-stretch justify-content-between'>
-              <h6 className='card-title' style={{ fontWeight: 600, fontSize: '14px' }}>
-                Revenue
-              </h6>
-              <b className='card-text py-1' style={{ fontWeight: 700, fontSize: '16px' }}>
-                N255,000
-              </b>
-            </div>
-
-            <div
-              className='d-flex align-items-center justify-content-center card-img icon-holder'
-              style={{
-                width: '65px',
-                height: '60px',
-              }}
-            >
-              <img src='' alt='icon' />
-            </div>
-          </div>
-
-          <div className='card flex-row p-3 m-2 align-items-end'>
-            <div className='card-body d-flex flex-column p-0 me-1 align-self-stretch justify-content-between'>
-              <h6 className='card-title' style={{ fontWeight: 600, fontSize: '14px' }}>
-                Deals Processed
-              </h6>
-              <b className='card-text py-1' style={{ fontWeight: 700, fontSize: '16px' }}>
-                30,000
-              </b>
-            </div>
-            <div
-              className='d-flex align-items-center justify-content-center card-img icon-holder'
-              style={{
-                width: '65px',
-                height: '60px',
-              }}
-            >
-              <img
-                src=''
-                alt='icon'
-              />
-            </div>
-          </div>
-
-          <div className='card flex-row p-3 m-2 align-items-end'>
-            <div className='card-body d-flex flex-column p-0 me-1 align-self-stretch justify-content-between'>
-              <h6 className='card-title' style={{ fontWeight: 600, fontSize: '14px' }}>
-                Unique Users
-              </h6>
-              <b className='card-text py-1' style={{ fontWeight: 700, fontSize: '16px' }}>
-                56,890
-              </b>
-            </div>
-            <div
-              className='d-flex align-items-center justify-content-center card-img icon-holder'
-              style={{
-                width: '65px',
-                height: '60px',
-              }}
-            >
-              <img
-                src=''
-                alt="icon"
-              />
-            </div>
-          </div>
-
-          <div className='card flex-row p-3 m-2 align-items-end'>
-            <div className='card-body d-flex flex-column p-0 me-1 align-self-stretch justify-content-between'>
-              <h6 className='card-title word-wrap' style={{ fontWeight: 600, fontSize: '14px' }}>
-                Number of Transactions
-              </h6>
-              <b className='card-text py-1' style={{ fontWeight: 700, fontSize: '16px' }}>
-                N1,678,000
-              </b>
-            </div>
-            <div
-              className='d-flex align-items-center justify-content-center card-img icon-holder'
-              style={{
-                width: '65px',
-                height: '60px',
-              }}
-            >
-              <img
-                src=''
-                alt='icon'
-              />
-            </div>
-          </div>
+          {twits.map((eachTwit: any) => (
+            <Twit
+              uuid={eachTwit.uuid || '1'}
+              image={eachTwit.image || ''}
+              posterName={eachTwit.posterName || ''}
+              numberOfLikes={eachTwit.numberOfLikes || 5}
+              caption={eachTwit.caption || ''}
+              createdAt={eachTwit.createdAt || ''}
+            />
+          ))}
+          {/* <Twit uuid={"1"} image={""} posterName={""} numberOfLikes={5} caption={""} createdAt={""} /> */}
         </div>
       </div>
 
-      <div className='dashboard-section new-entries'>
+      {/* <div className='dashboard-section new-entries'>
         <div className='entries-container d-flex justify-content-center'>
           <div className='card py-4 px-4 justify-content-between'>
             <div className='card-title d-flex justify-content-between align-items-end'>
@@ -244,7 +197,7 @@ const DashboardMain = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

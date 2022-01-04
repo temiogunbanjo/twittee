@@ -23,37 +23,7 @@ const Header = () => {
         <ul className='navbar-nav ms-auto mb-2 mb-lg-0 pt-4 pb-1' style={{ width: '70%' }}>
           <li className='nav-item'>
             <NavLink className='nav-link' exact to='/dashboard'>
-              Dashboard
-            </NavLink>
-          </li>
-
-          <li className='nav-item'>
-            <NavLink className='nav-link' to='/dashboard/merchant'>
-              Merchant
-            </NavLink>
-          </li>
-
-          <li className='nav-item'>
-            <NavLink className='nav-link' to='/dashboard/buyers'>
-              Buyers
-            </NavLink>
-          </li>
-
-          <li className='nav-item'>
-            <NavLink className='nav-link' to='/dashboard/messages'>
-              Messages
-            </NavLink>
-          </li>
-
-          <li className='nav-item'>
-            <NavLink className='nav-link' to='/dashboard/products'>
-              Products
-            </NavLink>
-          </li>
-
-          <li className='nav-item'>
-            <NavLink className='nav-link' to='/dashboard/transactions'>
-              Transactions
+              Twittee!
             </NavLink>
           </li>
         </ul>
@@ -71,11 +41,6 @@ const Header = () => {
             </Dropdown.Toggle>
 
             <Dropdown.Menu className='drop-down-menu-custom-1'>
-              <Dropdown.Item as='div'>
-                <Link className='nav-link' to='/dashboard/profile'>
-                  Profile
-                </Link>
-              </Dropdown.Item>
               <Dropdown.Item as='div'>
                 <Link className='nav-link' to='/dashboard/settings'>
                   Settings

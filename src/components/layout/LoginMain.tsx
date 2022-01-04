@@ -36,6 +36,7 @@ const Main = () => {
     setIsLoading(true);
     //if login success, get user detail
     let url = `${endpoints.auth.login}`;
+    console.log(url);
 
     const payload = {
       email: localState.email,
@@ -43,6 +44,7 @@ const Main = () => {
     };
     try {
       const response = await axios.post(url, payload);
+      console.log(response);
       const tokenData: any = response.data;
 
       const tokenDataDetail = tokenData.detail;
@@ -66,7 +68,6 @@ const Main = () => {
   };
 
   const getUserDetails = async (responseData: any) => {
-
     try {
       const token = responseData.data.data.token;
       const url = `${endpoints.auth.validateToken}/?token=${token}`;
