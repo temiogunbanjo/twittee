@@ -28,10 +28,7 @@ const DashboardMain = () => {
                 height: '60px',
               }}
             >
-              <img
-                src=''
-                alt='icon'
-              />
+              <img src='' alt='icon' />
             </div>
           </div>
 
@@ -53,7 +50,7 @@ const DashboardMain = () => {
             >
               <img
                 src=''
-                // alt='icon'
+                alt='icon'
               />
             </div>
           </div>
@@ -76,7 +73,7 @@ const DashboardMain = () => {
             >
               <img
                 src=''
-                // alt="icon"
+                alt="icon"
               />
             </div>
           </div>
@@ -99,7 +96,7 @@ const DashboardMain = () => {
             >
               <img
                 src=''
-                // alt='icon'
+                alt='icon'
               />
             </div>
           </div>

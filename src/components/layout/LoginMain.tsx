@@ -66,12 +66,13 @@ const Main = () => {
   };
 
   const getUserDetails = async (responseData: any) => {
-    const token = responseData.data.data.token;
-    const url = `${endpoints.auth.validateToken}/?token=${token}`;
-
-    console.log(token);
 
     try {
+      const token = responseData.data.data.token;
+      const url = `${endpoints.auth.validateToken}/?token=${token}`;
+
+      console.log(token);
+
       const response: AxiosResponse<any> = await axios.post(url);
       console.log(response.data.data);
       //set in state

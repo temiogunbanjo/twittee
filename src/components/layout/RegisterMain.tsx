@@ -1,10 +1,10 @@
-import { useContext, useState } from 'react';
-import axios, { AxiosResponse } from 'axios';
-import { AppContext } from '../../context/AppContext';
+import { useState } from 'react';
+import axios from 'axios';
+// import { AppContext } from '../../context/AppContext';
 import { isFormValidated } from '../../utils/formUtils';
 import { signupDTO } from '../../interfaces/AuthInterface';
 import { endpoints } from '../../utils/urls';
-import setAuthToken from '../../utils/setAuthToken';
+// import setAuthToken from '../../utils/setAuthToken';
 import { addToast } from '../../utils/toastNotifications';
 import ButtonLoader from '../common/ButtonLoader';
 
@@ -12,7 +12,7 @@ const Main = () => {
   const [localState, setLocalState] = useState(signupDTO);
   const [isLoading, setIsLoading] = useState(false);
 
-  const { dispatch } = useContext(AppContext);
+  // const { dispatch } = useContext(AppContext);
 
   const handleChange = (input: string) => (event: any) => {
     setLocalState({
@@ -43,7 +43,7 @@ const Main = () => {
     };
     try {
       const response = await axios.post(url, payload);
-      console.log({response});
+      console.log({ response });
       const tokenData: any = response.data;
 
       const tokenDataDetail = tokenData.detail;
@@ -52,7 +52,7 @@ const Main = () => {
       } else {
         addToast('User not found.', 'error');
         //get user details
-        await getUserDetails(response);
+        // await getUserDetails(response);
       }
     } catch (error: any) {
       // console.log(error);
@@ -61,28 +61,28 @@ const Main = () => {
     }
   };
 
-  const getUserDetails = async (responseData: any) => {
-    // const token = responseData.data.data.token;
-    // const url = `${endpoints.auth.validateToken}/?token=${token}`;
+  // const getUserDetails = async (responseData: any) => {
+  //   // const token = responseData.data.data.token;
+  //   const url = `${endpoints.auth.validateToken}/?token=${token}`;
 
-    // console.log(token);
+  //   // console.log(token);
 
-    try {
-      const response: AxiosResponse<any> = await axios.post(url);
-      console.log(response.data.data);
-      //set in state
-      dispatch({
-        type: 'SET_USER',
-        payload: response.data.data,
-      });
+  //   try {
+  //     const response: AxiosResponse<any> = await axios.post(url);
+  //     console.log(response.data.data);
+  //     //set in state
+  //     dispatch({
+  //       type: 'SET_USER',
+  //       payload: response.data.data,
+  //     });
 
-      //go to dashbaord
-      window.location.href = '/dashboard';
-    } catch (error) {
-      addToast('User not found.', 'error');
-    } finally {
-    }
-  };
+  //     //go to dashbaord
+  //     window.location.href = '/dashboard';
+  //   } catch (error) {
+  //     addToast('User not found.', 'error');
+  //   } finally {
+  //   }
+  // };
 
   return (
     <>
