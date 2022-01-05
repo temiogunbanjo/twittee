@@ -405,7 +405,16 @@ form.styled > * {
 }
 
 .twit{
-  min-width: 450px;
+  min-width: 550px;
+  border: 1px solid #e5e5e5;
+  border-radius: 0;
+}
+
+.twit form input{
+  outline: none;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  border: 1px solid #ddd;
 }
 
 @media only screen and (max-width: 1024px) {
@@ -454,6 +463,11 @@ form.styled > * {
     border-left: 1px solid #2aa152;
     background-color: #009933;
   }
+
+  .dashboard-section .twit{
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+  }
 }
 
 @media only screen and (max-width: 992px) {
@@ -461,16 +475,16 @@ form.styled > * {
     flex-wrap: wrap;
   }
 
-  .dashboard-section .summary-container .card{
+  .dashboard-section .twit{
     flex-grow: 1;
-    max-width: 450px;
+    max-width: 550px;
+    min-width: 300px;
   }
 
-  .dashboard-section.new-entries .card{
+  /* .dashboard-section.new-entries .card{
     flex-grow: 1;
-    min-height: 380px;
-    
-  }
+    min-height: 380px; 
+  } */
 }
 
 @media only screen and (max-width: 768px) {

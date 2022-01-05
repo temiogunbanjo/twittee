@@ -136,7 +136,7 @@ const Twit = (props: any) => {
   };
 
   return (
-    <div id={`twit-${props.uuid}`} className='card twit pb-2 my-3 justify-content-between'>
+    <div id={`twit-${props.uuid}`} className='card twit pb-3 my-3 justify-content-between'>
       <div className='card-head px-4'>
         <b style={{ fontSize: '15px', fontWeight: 600 }}>{props.posterName}</b>
       </div>
