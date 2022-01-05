@@ -11,6 +11,7 @@ import { endpoints } from '../../utils/urls';
 axios.defaults.withCredentials = true;
 
 const LikeButton = (props: any) => {
+  console.log(props.data);
   return (
     <div className='d-flex align-items-center'>
       <button
@@ -19,10 +20,10 @@ const LikeButton = (props: any) => {
         onClick={props.likeHandler}
         style={{ backgroundColor: 'transparent' }}
       >
-        {props.liked ? (
-          <i className='d-block bi bi-heart-fill' style={{ color: 'red', fontSize: '22px' }}></i>
-        ) : (
+        {!!props.liked ? (
           <i className='d-block bi bi-heart' style={{ fontSize: '22px' }}></i>
+        ) : (
+          <i className='d-block bi bi-heart-fill' style={{ color: 'red', fontSize: '22px' }}></i>
         )}
       </button>
       <span
@@ -69,7 +70,7 @@ const Twit = (props: any) => {
   const likeHandler = async (ev: any) => {
     setLocalState({ liked: !localState.liked });
     let url = `${endpoints.twits.actions.like(props.uuid)}`;
-    console.log(url);
+    // console.log(url);
 
     const payload = {
       state: localState.liked,
@@ -81,7 +82,7 @@ const Twit = (props: any) => {
 
       if (responseData) {
         console.log(responseData);
-        addToast(responseData.message, 'error');
+        addToast(responseData.message, 'success');
       }
     } catch (error: any) {
       addToast(error.message || error, 'error');
@@ -128,7 +129,7 @@ const Twit = (props: any) => {
     };
 
     try {
-      setAuthToken();
+      // setAuthToken();
       const response: any = await axios.delete(url, {
         data: payload,
       });

@@ -12,7 +12,7 @@ const DashboardMain = () => {
 
   const fetchAllTwits = async () => {
     let url = `${endpoints.twits.manage.fetchAll}`;
-    console.log(url);
+    // console.log(url);
 
     try {
       const response: any = await axios.get(url);
@@ -20,6 +20,7 @@ const DashboardMain = () => {
       if (responseData) {
         addToast(responseData.message || 'Twits loaded successfully', 'success');
         setTwits(responseData.payload);
+        console.log(responseData.payload);
       }
     } catch (error: any) {
       addToast(error.message || error, 'error');
@@ -52,7 +53,7 @@ const DashboardMain = () => {
               uuid={eachTwit.uuid || '1'}
               image={eachTwit.image || ''}
               posterName={eachTwit.posterName || ''}
-              numberOfLikes={eachTwit.numberOfLikes || 5}
+              numberOfLikes={eachTwit.numberOfLikes}
               caption={eachTwit.caption || ''}
               owner={eachTwit.userId || ''}
               createdAt={eachTwit.createdAt || ''}
