@@ -2,8 +2,11 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { Dropdown } from 'react-bootstrap';
 import { isFormValidated } from '../../utils/formUtils';
+import { getResponseData } from '../../utils/handleAPIResponse';
 import { addToast } from '../../utils/toastNotifications';
 import { endpoints } from '../../utils/urls';
+
+axios.defaults.withCredentials = true;
 
 const Twit = (props: any) => {
   const [localState, setLocalState]: any = useState({
@@ -21,10 +24,11 @@ const Twit = (props: any) => {
 
     try {
       const response: any = await axios.post(url, payload);
-      if (response.status === 'error') {
-        addToast(response.message, 'error');
-      } else {
-        addToast(response.message, 'error');
+      const responseData: any = getResponseData(response);
+
+      if (responseData) {
+        console.log(responseData);
+        addToast(responseData.message, 'error');
       }
     } catch (error: any) {
       addToast(error.message || error, 'error');
@@ -50,10 +54,11 @@ const Twit = (props: any) => {
     };
     try {
       const response: any = await axios.post(url, payload);
-      if (response.responsecode === 401) {
-        addToast(response.message, 'error');
-      } else {
-        addToast(response.message, 'error');
+      const responseData: any = getResponseData(response);
+
+      if (responseData) {
+        console.log(responseData);
+        addToast(responseData.message, 'error');
       }
     } catch (error: any) {
     } finally {
@@ -72,10 +77,11 @@ const Twit = (props: any) => {
 
     try {
       const response: any = await axios.post(url, payload);
-      if (response.responsecode === 401) {
-        addToast(response.message, 'error');
-      } else {
-        addToast(response.message, 'error');
+      const responseData: any = getResponseData(response);
+
+      if (responseData) {
+        console.log(responseData);
+        addToast(responseData.message, 'error');
       }
     } catch (error: any) {
       addToast(error.message || error, 'error');
@@ -85,9 +91,9 @@ const Twit = (props: any) => {
   };
 
   return (
-    <div id={`twit-${props.uuid}`} className='card pb-4 justify-content-between'>
+    <div id={`twit-${props.uuid}`} className='card pb-2 my-3 justify-content-between'>
       <div className='card-head px-4'>
-        <b style={{ fontSize: '15px', fontWeight: 700 }}>{props.posterName}</b>
+        <b style={{ fontSize: '15px', fontWeight: 600 }}>{props.posterName}</b>
       </div>
       <div
         className='d-flex px-4 align-items-center justify-content-center card-img'
@@ -99,21 +105,23 @@ const Twit = (props: any) => {
       >
         <img src={props.image} alt='icon' />
       </div>
-      <div className='card-actions d-flex justify-content-between align-items-end px-4'>
-        <div className='d-flex align-items-end'>
-          <button id={`likebutton-${props.uuid}`} className='like-button' onClick={likeHandler}>
+      <div className='card-actions d-flex justify-content-between align-items-center px-4 mt-2'>
+        <div className='d-flex align-items-center'>
+          <button id={`likebutton-${props.uuid}`} className='like-button border-1' onClick={likeHandler} style={{
+            backgroundColor: "red"
+          }}>
             <img
               src={require('../../assets/ArrowRight.svg').default}
               alt='caution'
-              className='ms-3 mb-1'
+              className=''
             />
           </button>
-          <span>{`${props.numberOfLikes} likes`}</span>
+          <span className='ms-2' style={{textTransform: 'capitalize'}}>{`${props.numberOfLikes} likes`}</span>
         </div>
 
         <Dropdown className='mx-1'>
           <Dropdown.Toggle variant='' className='p-0' style={{ height: '100%' }}>
-            <span>|</span>
+            <span>Actions</span>
           </Dropdown.Toggle>
 
           <Dropdown.Menu className='drop-down-menu-custom-1'>
@@ -127,13 +135,25 @@ const Twit = (props: any) => {
             </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
+      </div>
+
+      <div className='card-subtitle d-flex align-items-center px-4' style={{
+        fontWeight: 400,
+        color: '#999',
+        fontSize: '12px',
+        margin: '10px 0'
+      }}>
         <span>{`Posted at ${new Date(props.createdAt).toLocaleDateString()}`}</span>
       </div>
-      <div className='card-body justify-content-between mt-auto px-4'>
+
+      <div className='card-body my-auto px-4'>
         <b style={{ fontSize: '16px', fontWeight: 600 }}>{props.caption}</b>
-        <form id={`form-${props.uuid}-comment-box`}>
-          <input type='text' />
-          <button onClick={postCommentHandler}></button>
+      </div>
+
+      <div className='justify-content-between mt-auto px-4 pb-2'>
+        <form id={`form-${props.uuid}-comment-box`} className="d-flex border border-pill" style={{width: "100%"}}>
+          <input type='text' placeholder='type your comment...' className="border-0 flex-fill p-2" style={{}}/>
+          <button onClick={postCommentHandler} className="border-0 px-3">P</button>
         </form>
       </div>
     </div>
