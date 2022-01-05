@@ -21,7 +21,7 @@ const Header = () => {
   return (
     <nav className='navbar navbar-light navbar-expand-lg' id='navbar-section'>
       <div className='navbar-collapse' id='navbarSupportedContent'>
-        <NavLink id="main-logo" className='nav-link' exact to='/dashboard'>
+        <NavLink id='main-logo' className='nav-link' exact to='/dashboard'>
           Twittee!
         </NavLink>
 

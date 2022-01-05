@@ -11,6 +11,8 @@ import ButtonLoader from '../common/ButtonLoader';
 import React from 'react';
 import { getResponseData } from '../../utils/handleAPIResponse';
 
+axios.defaults.withCredentials = true;
+
 const Main = () => {
   const [localState, setLocalState] = useState(loginDTO);
   const [isLoading, setIsLoading] = useState(false);

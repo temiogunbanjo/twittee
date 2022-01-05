@@ -10,6 +10,8 @@ import ButtonLoader from '../common/ButtonLoader';
 import React from 'react';
 import { getResponseData } from '../../utils/handleAPIResponse';
 
+axios.defaults.withCredentials = true;
+
 const Main = () => {
   const [localState, setLocalState] = useState(signupDTO);
   const [isLoading, setIsLoading] = useState(false);
@@ -41,7 +43,7 @@ const Main = () => {
       password: localState.password,
       confirmPassword: localState.confirmPassword,
     };
-    
+
     try {
       const response: any = await axios.post(url, payload);
       // console.log(response);

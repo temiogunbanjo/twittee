@@ -5,6 +5,8 @@ import { addToast } from '../../utils/toastNotifications';
 import { endpoints } from '../../utils/urls';
 import Twit from '../common/Twit';
 
+axios.defaults.withCredentials = true;
+
 const DashboardMain = () => {
   const [twits, setTwits] = useState([]);
 
