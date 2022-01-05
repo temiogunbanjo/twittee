@@ -1,3 +1,4 @@
+import React from 'react';
 import Main from '../layout/RegisterMain';
 
 const Register = () => {

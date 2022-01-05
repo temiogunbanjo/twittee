@@ -2,6 +2,7 @@ import { NavLink, Link } from 'react-router-dom';
 import { Dropdown } from 'react-bootstrap';
 import { useContext, useEffect } from 'react';
 import { AppContext } from '../../context/AppContext';
+import React from 'react';
 
 const Header = () => {
   const { appState, dispatch } = useContext(AppContext);
@@ -32,11 +33,10 @@ const Header = () => {
           <Dropdown style={{ display: 'inline-block' }}>
             <Dropdown.Toggle className='d-flex align-items-center' variant='' id='dropdown-basic-1'>
               <span id='user-gravatar' className='gravatar'>
-                {appState.user.firstName.charAt(0)}
-                {appState.user.lastName.charAt(0)}
+                {appState.user.name.charAt(0)}
               </span>
               <div id='user-username' className='ms-3'>
-                {appState.user.firstName} {appState.user.lastName}
+                {appState.user.name}
               </div>
             </Dropdown.Toggle>
 

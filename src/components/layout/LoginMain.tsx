@@ -8,6 +8,7 @@ import { endpoints } from '../../utils/urls';
 import setAuthToken from '../../utils/setAuthToken';
 import { addToast } from '../../utils/toastNotifications';
 import ButtonLoader from '../common/ButtonLoader';
+import React from 'react';
 
 const Main = () => {
   const [localState, setLocalState] = useState(loginDTO);
@@ -42,51 +43,55 @@ const Main = () => {
       email: localState.email,
       password: localState.password,
     };
+
     try {
-      const response = await axios.post(url, payload);
-      console.log(response);
-      const tokenData: any = response.data;
+      const response: any = await axios.post(url, payload);
+      // console.log(response);
 
-      const tokenDataDetail = tokenData.detail;
-      if (tokenData.status === 401) {
-        addToast(tokenDataDetail, 'error');
+      if (!response.data) {
+        addToast(response.responsemessage || 'An error occurred!', response.status || 'error');
+      } else {
+        if (response.data.status === 'success') {
+          const tokenData: any = response.data.data;
+
+          // Save token
+          dispatch({
+            type: 'SET_TOKEN',
+            payload: tokenData.payload.token,
+          });
+          setAuthToken(tokenData.payload.token);
+          addToast(tokenData.message, 'success');
+
+          //get user details
+          await getUserDetails(tokenData.payload.token);
+        } else {
+          addToast(response.data.responsemessage, 'error');
+        }
       }
-
-      dispatch({
-        type: 'SET_TOKEN',
-        payload: tokenData.data.token,
-      });
-
-      setAuthToken(tokenData.data.token);
-
-      //get user details
-      await getUserDetails(response);
     } catch (error: any) {
+      addToast(`${error}`, 'error');
     } finally {
       setIsLoading(false);
     }
   };
 
-  const getUserDetails = async (responseData: any) => {
+  const getUserDetails = async (token: any) => {
     try {
-      const token = responseData.data.data.token;
       const url = `${endpoints.auth.validateToken}/?token=${token}`;
 
-      console.log(token);
+      const response: AxiosResponse<any> = await axios.get(url);
+      const userPayload = response.data.data.payload;
 
-      const response: AxiosResponse<any> = await axios.post(url);
-      console.log(response.data.data);
       //set in state
       dispatch({
         type: 'SET_USER',
-        payload: response.data.data,
+        payload: userPayload,
       });
 
       //go to dashbaord
       window.location.href = '/dashboard';
     } catch (error) {
-      addToast('User not found.', 'error');
-    } finally {
+      addToast('could not get user details.', 'error');
     }
   };
 

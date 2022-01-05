@@ -1,40 +1,19 @@
 export interface IUserInterface {
   userId: string;
-  firstName: string;
-  lastName: string;
-  phoneNumber: string;
+  name: string;
   email: string;
-  role: Array<string>;
-  validFrom: string;
-  validTo: string;
+  hasVerifiedEmail: boolean;
+  iat: string;
+  exp: string;
+  createdAt: string;
 }
 
 export const defaultUser: IUserInterface = {
   userId: '',
-  firstName: '',
-  lastName: '',
-  phoneNumber: '',
+  name: '',
   email: '',
-  role: [''],
-  validFrom: '',
-  validTo: '',
+  hasVerifiedEmail: true,
+  iat: '',
+  exp: '',
+  createdAt: '',
 };
-
-export interface IProfileInterface {
-  firstName: string;
-  lastName: string;
-  phoneNumber: string;
-  email: string;
-}
-
-export const defaultProfile: IProfileInterface = {
-  firstName: '',
-  lastName: '',
-  phoneNumber: '',
-  email: '',
-};
-
-// "firstName": "string",
-//   "lastName": "string",
-//   "email": "string",
-//   "phoneNumber": "string"

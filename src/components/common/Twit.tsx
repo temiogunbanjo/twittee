@@ -16,12 +16,12 @@ const Twit = (props: any) => {
     console.log(url);
 
     const payload = {
-      state: localState.liked
+      state: localState.liked,
     };
 
     try {
       const response: any = await axios.post(url, payload);
-      if (response.status === "error") {
+      if (response.status === 'error') {
         addToast(response.message, 'error');
       } else {
         addToast(response.message, 'error');

@@ -43,37 +43,31 @@ axios.interceptors.response.use(
     return response;
   },
   (error) => {
+    // console.log({error: error.response});
     toggleSpinner('hide');
 
-    if ((error.response && error.response.status) === 500) {
-      addToast('There is a server error, Please contact admin. Code 500.', 'error');
-    }
+    switch (true) {
+      case error.response && error.response.status === 500:
+        addToast('There is a server error, Please try again or contact admin', 'error');
+        return error.response.data;
 
-    if ((error.response && error.response.status) === 400) {
-      addToast(
-        'There is a problem with your request, check your payload and contact admin. Code 400',
-        'error'
-      );
-    }
+      case error.response && (error.response.status === 400 || error.response.status === 404):
+        addToast(`${error.response.data.responsemessage}`, 'error');
+        return error.response.data;
 
-    if ((error.response && error.response.status) === 404) {
-      addToast(error.response.data.detail, 'error');
-    }
+      case error.response && error.response.status === 401:
+        if (error.response.config.url.includes('/auth/login')) {
+          const message = error.response.data.responsemessage
+            ? error.response.data.responsemessage
+            : error;
+          return Promise.reject(message);
+        } else {
+          window.location.href = '/';
+          return error.response.data;
+        }
 
-    if ((error.response && error.response.status) === 409) {
-      addToast(error.response.data.detail.toString(), 'error');
-    }
-
-    if ((error.response && error.response.status) === 401) {
-      //if we are on the login page, return promise so the calling page can handle
-      if (error.response.config.url.includes('/auth/token')) {
+      default:
         return Promise.reject(error);
-      }
-
-      window.location.href = '/';
-      return false;
-    } else {
-      return Promise.reject(error);
     }
   }
 );

@@ -1,3 +1,5 @@
+import React from 'react';
+
 const TextInput = (props: any) => {
   // Set defaults values
   let labelStyles = {};

@@ -1,18 +1,17 @@
 import { useState } from 'react';
 import axios from 'axios';
-// import { AppContext } from '../../context/AppContext';
+
 import { isFormValidated } from '../../utils/formUtils';
 import { signupDTO } from '../../interfaces/AuthInterface';
 import { endpoints } from '../../utils/urls';
-// import setAuthToken from '../../utils/setAuthToken';
+
 import { addToast } from '../../utils/toastNotifications';
 import ButtonLoader from '../common/ButtonLoader';
+import React from 'react';
 
 const Main = () => {
   const [localState, setLocalState] = useState(signupDTO);
   const [isLoading, setIsLoading] = useState(false);
-
-  // const { dispatch } = useContext(AppContext);
 
   const handleChange = (input: string) => (event: any) => {
     setLocalState({
@@ -41,48 +40,32 @@ const Main = () => {
       password: localState.password,
       confirmPassword: localState.confirmPassword,
     };
+    
     try {
-      const response = await axios.post(url, payload);
-      console.log({ response });
-      const tokenData: any = response.data;
+      const response: any = await axios.post(url, payload);
+      // console.log(response);
 
-      const tokenDataDetail = tokenData.detail;
-      if (tokenData.status === 401) {
-        addToast(tokenDataDetail, 'error');
+      if (!response.data) {
+        addToast(response.responsemessage || 'An error occurred!', response.status || 'error');
       } else {
-        addToast('User not found.', 'error');
-        //get user details
-        // await getUserDetails(response);
+        if (response.data.status === 'success') {
+          const responseData: any = response.data.data;
+
+          addToast(responseData.message, 'success');
+          addToast('redirecting to login...', 'info');
+          setTimeout(() => {
+            window.location.href = '/';
+          }, 2000);
+        } else {
+          addToast(response.data.responsemessage, 'error');
+        }
       }
     } catch (error: any) {
-      // console.log(error);
+      addToast(`${error}`, 'error');
     } finally {
       setIsLoading(false);
     }
   };
-
-  // const getUserDetails = async (responseData: any) => {
-  //   // const token = responseData.data.data.token;
-  //   const url = `${endpoints.auth.validateToken}/?token=${token}`;
-
-  //   // console.log(token);
-
-  //   try {
-  //     const response: AxiosResponse<any> = await axios.post(url);
-  //     console.log(response.data.data);
-  //     //set in state
-  //     dispatch({
-  //       type: 'SET_USER',
-  //       payload: response.data.data,
-  //     });
-
-  //     //go to dashbaord
-  //     window.location.href = '/dashboard';
-  //   } catch (error) {
-  //     addToast('User not found.', 'error');
-  //   } finally {
-  //   }
-  // };
 
   return (
     <>
