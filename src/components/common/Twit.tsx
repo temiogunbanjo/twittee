@@ -8,6 +8,44 @@ import { endpoints } from '../../utils/urls';
 
 axios.defaults.withCredentials = true;
 
+const LikeButton = (props: any) => {
+  return (
+    <div className='d-flex align-items-center'>
+      <button
+        id={`likebutton-${props.data.uuid}`}
+        className='like-button border-0 p-0'
+        onClick={props.likeHandler}
+        style={{backgroundColor: "transparent"}}
+      >
+        {props.liked ? (
+          <i className='d-block bi bi-heart-fill' style={{ color: 'red', fontSize: '22px' }}></i>
+        ) : (
+          <i className='d-block bi bi-heart' style={{ fontSize: '22px' }}></i>
+        )}
+      </button>
+      <span
+        className='ms-2'
+        style={{ textTransform: 'lowercase', color: '#999' }}
+      >{`${props.data.numberOfLikes} likes`}</span>
+    </div>
+  );
+};
+
+const CommentForm = (props: any) => {
+  return (
+    <form
+      id={`form-${props.data.uuid}-comment-box`}
+      className='d-flex border border-rounded'
+      style={{ width: '100%' }}
+    >
+      <input type='text' placeholder='type your comment...' className='border-0 flex-fill p-2' style={{fontWeight: 500}} />
+      <button onClick={props.postCommentHandler} className='border-0 px-3'>
+        P
+      </button>
+    </form>
+  );
+};
+
 const Twit = (props: any) => {
   const [localState, setLocalState]: any = useState({
     liked: false,
@@ -100,25 +138,13 @@ const Twit = (props: any) => {
         style={{
           width: '500px',
           height: '350px',
-          backgroundColor: 'silver',
+          backgroundColor: '#eee',
         }}
       >
-        <img src={props.image} alt='icon' />
+        <img src={props.image} alt='icon' style={{width: '100%', height: '100%'}}/>
       </div>
       <div className='card-actions d-flex justify-content-between align-items-center px-4 mt-2'>
-        <div className='d-flex align-items-center'>
-          <button id={`likebutton-${props.uuid}`} className='like-button border-1' onClick={likeHandler} style={{
-            backgroundColor: "red"
-          }}>
-            <img
-              src={require('../../assets/ArrowRight.svg').default}
-              alt='caution'
-              className=''
-            />
-          </button>
-          <span className='ms-2' style={{textTransform: 'capitalize'}}>{`${props.numberOfLikes} likes`}</span>
-        </div>
-
+        <LikeButton data={props} liked={localState.liked} likeHandler={likeHandler} />
         <Dropdown className='mx-1'>
           <Dropdown.Toggle variant='' className='p-0' style={{ height: '100%' }}>
             <span>Actions</span>
@@ -137,13 +163,17 @@ const Twit = (props: any) => {
         </Dropdown>
       </div>
 
-      <div className='card-subtitle d-flex align-items-center px-4' style={{
-        fontWeight: 400,
-        color: '#999',
-        fontSize: '12px',
-        margin: '10px 0'
-      }}>
-        <span>{`Posted at ${new Date(props.createdAt).toLocaleDateString()}`}</span>
+      <div
+        className='card-subtitle d-flex align-items-center px-4'
+        style={{
+          fontWeight: 400,
+          fontSize: '12px',
+          margin: '6px 0',
+        }}
+      >
+        <i style={{
+          color: '#bbb',
+        }}>{`Posted at ${new Date(props.createdAt).toUTCString()}`}</i>
       </div>
 
       <div className='card-body my-auto px-4'>
@@ -151,10 +181,7 @@ const Twit = (props: any) => {
       </div>
 
       <div className='justify-content-between mt-auto px-4 pb-2'>
-        <form id={`form-${props.uuid}-comment-box`} className="d-flex border border-pill" style={{width: "100%"}}>
-          <input type='text' placeholder='type your comment...' className="border-0 flex-fill p-2" style={{}}/>
-          <button onClick={postCommentHandler} className="border-0 px-3">P</button>
-        </form>
+        <CommentForm data={props} postCommentHandler={postCommentHandler} />
       </div>
     </div>
   );
