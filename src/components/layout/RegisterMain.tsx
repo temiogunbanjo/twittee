@@ -8,6 +8,7 @@ import { endpoints } from '../../utils/urls';
 import { addToast } from '../../utils/toastNotifications';
 import ButtonLoader from '../common/ButtonLoader';
 import React from 'react';
+import { getResponseData } from '../../utils/handleAPIResponse';
 
 const Main = () => {
   const [localState, setLocalState] = useState(signupDTO);
@@ -44,21 +45,13 @@ const Main = () => {
     try {
       const response: any = await axios.post(url, payload);
       // console.log(response);
-
-      if (!response.data) {
-        addToast(response.responsemessage || 'An error occurred!', response.status || 'error');
-      } else {
-        if (response.data.status === 'success') {
-          const responseData: any = response.data.data;
-
-          addToast(responseData.message, 'success');
-          addToast('redirecting to login...', 'info');
-          setTimeout(() => {
-            window.location.href = '/';
-          }, 2000);
-        } else {
-          addToast(response.data.responsemessage, 'error');
-        }
+      const responseData = getResponseData(response);
+      if (responseData) {
+        addToast(responseData.message, 'success');
+        addToast('redirecting to login...', 'info');
+        setTimeout(() => {
+          window.location.href = '/';
+        }, 2000);
       }
     } catch (error: any) {
       addToast(`${error}`, 'error');

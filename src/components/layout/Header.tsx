@@ -21,13 +21,9 @@ const Header = () => {
   return (
     <nav className='navbar navbar-light navbar-expand-lg' id='navbar-section'>
       <div className='navbar-collapse' id='navbarSupportedContent'>
-        <ul className='navbar-nav ms-auto mb-2 mb-lg-0 pt-4 pb-1' style={{ width: '70%' }}>
-          <li className='nav-item'>
-            <NavLink className='nav-link' exact to='/dashboard'>
-              Twittee!
-            </NavLink>
-          </li>
-        </ul>
+        <NavLink id="main-logo" className='nav-link' exact to='/dashboard'>
+          Twittee!
+        </NavLink>
 
         <div className='d-flex align-self-stretch align-items-end pb-1 px-3 user-account-menu-wrap active'>
           <Dropdown style={{ display: 'inline-block' }}>

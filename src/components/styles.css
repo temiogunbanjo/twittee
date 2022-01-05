@@ -62,10 +62,6 @@ body{
   max-width: 650px;
 }
 
-.transaction-details-dialog{
-  max-width: 900px;
-}
-
 .modal-content{
   border: none;
   background-color: transparent;
@@ -94,11 +90,6 @@ body{
   padding: 40px 95px;
 }
 
-.transaction-details-dialog .modal-content .modal-body{
-  padding-left: 50px;
-  padding-right: 50px;
-}
-
 #navbar-section {
   background-color: white;
 }
@@ -115,6 +106,13 @@ body{
   font-weight: 600;
 }
 
+#main-logo{
+  color: var(--primary-color) !important;
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: -1px;
+}
+
 .nav-item{
   margin: 0 auto;
 }
@@ -126,32 +124,9 @@ body{
 }
 
 .nav-link.active {
+  color: var(--primary-color);
   padding-left: 1.9rem !important;
   padding-right: 0.8rem !important;
-}
-
-.nav-link.active::before {
-  content: '';
-  position: absolute;
-  height: 0%;
-  top: 50%;
-  transform: translateY(-50%);
-  left: 0;
-  border-top: 13px solid transparent;
-  border-bottom: 13px solid transparent;
-  border-right: 3px solid transparent;
-  border-left: 18px solid var(--primary-color);
-  border-radius: 5px;
-}
-
-.nav-link.active::after {
-  content: '';
-  width: 100%;
-  top: 100%;
-  left: 0;
-  position: absolute;
-  border: 3px solid var(--primary-color);
-  border-radius: 5vh;
 }
 
 .dropdown-menu .nav-link.active::after,
@@ -179,7 +154,7 @@ body{
 }
 
 .user-account-menu-wrap.active {
-  background-color: #009933;
+  background-color: rgb(12, 0, 19);
 }
 
 .user-account-menu-wrap.active #user-username{
@@ -415,64 +390,6 @@ form.styled > * {
   transition: all 0.2s ease;
 }
 
-.transaction-table{
-  overflow-x: auto;
-}
-
-.transaction-table .table-body{
-  min-height: 300px;
-}
-
-.transaction-table .table-row{
-  width: 100%;
-  min-width: 700px;
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  align-items: center;
-}
-
-.transaction-table .table-row > *{
-  text-align: center;
-  font-weight: 600;
-  font-size: 14px;
-}
-
-.table-row .transaction-action{
-  right: 0px;
-  background-color: white;
-  z-index: +1;
-}
-
-.table-row:not(:hover) .transaction-action{
-  display: none;
-}
-
-.transaction-table .table-row:nth-child(2n){
-  background-color:#EFFFF1;
-}
-
-.transaction-status{
-  background-color: gray;
-  color: white;
-  border-radius: 7px;
-  padding: 8px 20px;
-}
-
-.transaction-status.confirmed{
-  background-color: #09BA1A;
-  color: white;
-}
-
-.transaction-status.failed{
-  background-color: #ff0303;
-  color: white;
-}
-
-.transaction-status.pending{
-  background-color: #fafe26;
-  color: black;
-}
-
 .pagination{
   border-radius: 7px;
   width: 34px;
@@ -484,38 +401,6 @@ form.styled > * {
 .pagination.active{
   background-color: #000;
   color: white;
-}
-
-.message-category:last-child, .message-entry:last-child{
-  border-bottom: none !important;
-}
-
-.message-entry:hover{
-  background-color: #009933;
-  color: white !important;
-}
-
-.message-entry:hover{
-  background-color: #009933;
-  color: white !important;
-}
-
-.message-editor-section{
-  min-width: 58vw;
-  background-color: white;
-}
-
-.message-editor-header .message-tags > *{
-  font-size: 12px;
-  margin-right: 10px;
-  background-color: rgba(0, 153, 51, 0.2);
-  padding: 7px;
-  border-radius: 5vh;
-}
-
-.message-editor-section ~ .message-list-section{
-  max-height: 850px;
-  overflow-y: auto;
 }
 
 @media only screen and (max-width: 1024px) {
@@ -578,23 +463,6 @@ form.styled > * {
   .dashboard-section.new-entries .card{
     flex-grow: 1;
     min-height: 380px;  
-  }
-
-  .message-editor-section ~ .message-list-section{
-    border: 1px solid red;
-    max-height: 100vh;
-    overflow: hidden;
-  }
-
-  .message-editor-section{
-    z-index: +2;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    /* border: 1px solid red; */
-    padding-right: 30px;
-    min-width: unset !important;
-    left: 0;
   }
 }
 

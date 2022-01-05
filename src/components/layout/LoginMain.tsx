@@ -9,6 +9,7 @@ import setAuthToken from '../../utils/setAuthToken';
 import { addToast } from '../../utils/toastNotifications';
 import ButtonLoader from '../common/ButtonLoader';
 import React from 'react';
+import { getResponseData } from '../../utils/handleAPIResponse';
 
 const Main = () => {
   const [localState, setLocalState] = useState(loginDTO);
@@ -47,26 +48,18 @@ const Main = () => {
     try {
       const response: any = await axios.post(url, payload);
       // console.log(response);
+      const tokenData = getResponseData(response);
+      if (tokenData) {
+        // Save token
+        dispatch({
+          type: 'SET_TOKEN',
+          payload: tokenData.payload.token,
+        });
+        setAuthToken(tokenData.payload.token);
+        addToast(tokenData.message, 'success');
 
-      if (!response.data) {
-        addToast(response.responsemessage || 'An error occurred!', response.status || 'error');
-      } else {
-        if (response.data.status === 'success') {
-          const tokenData: any = response.data.data;
-
-          // Save token
-          dispatch({
-            type: 'SET_TOKEN',
-            payload: tokenData.payload.token,
-          });
-          setAuthToken(tokenData.payload.token);
-          addToast(tokenData.message, 'success');
-
-          //get user details
-          await getUserDetails(tokenData.payload.token);
-        } else {
-          addToast(response.data.responsemessage, 'error');
-        }
+        //get user details
+        await getUserDetails(tokenData.payload.token);
       }
     } catch (error: any) {
       addToast(`${error}`, 'error');
