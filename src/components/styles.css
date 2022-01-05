@@ -406,15 +406,18 @@ form.styled > * {
 
 .twit{
   min-width: 550px;
-  border: 1px solid #e5e5e5;
+  border: none;
   border-radius: 0;
+}
+
+.twit form{
+  border: 1px solid #ddd !important;
 }
 
 .twit form input{
   outline: none;
   padding-left: 2rem;
   padding-right: 2rem;
-  border: 1px solid #ddd;
 }
 
 @media only screen and (max-width: 1024px) {

@@ -17,7 +17,7 @@ const LikeButton = (props: any) => {
         id={`likebutton-${props.data.uuid}`}
         className='like-button border-0 p-0'
         onClick={props.likeHandler}
-        style={{backgroundColor: "transparent"}}
+        style={{ backgroundColor: 'transparent' }}
       >
         {props.liked ? (
           <i className='d-block bi bi-heart-fill' style={{ color: 'red', fontSize: '22px' }}></i>
@@ -40,8 +40,18 @@ const CommentForm = (props: any) => {
       className='d-flex border rounded-pill'
       style={{ width: '100%', overflow: 'hidden' }}
     >
-      <input type='text' placeholder='Type your comment...' className='border-0 flex-fill p-2' style={{fontWeight: 500, fontSize: '13px', backgroundColor: 'transparent'}} />
-      <button onClick={props.postCommentHandler} className='border-0 px-3' style={{backgroundColor: 'transparent'}}>
+      <input
+        type='text'
+        placeholder='Type your comment...'
+        name='comment'
+        className='border-0 flex-fill px-3 py-2'
+        style={{ fontWeight: 500, fontSize: '13px', backgroundColor: 'transparent' }}
+      />
+      <button
+        onClick={props.postCommentHandler}
+        className='border-0 px-3'
+        style={{ backgroundColor: 'transparent' }}
+      >
         <i className='bi bi-send' style={{ fontSize: '20px' }}></i>
       </button>
     </form>
@@ -114,13 +124,13 @@ const Twit = (props: any) => {
     console.log(appState.token);
 
     const payload = {
-      postId: props.uuid
+      postId: props.uuid,
     };
 
     try {
       setAuthToken();
       const response: any = await axios.delete(url, {
-        data: payload
+        data: payload,
       });
       const responseData: any = getResponseData(response);
 
@@ -136,21 +146,23 @@ const Twit = (props: any) => {
   };
 
   return (
-    <div id={`twit-${props.uuid}`} className='card twit pb-3 my-3 justify-content-between'>
-      <div className='card-head px-4'>
-        <b style={{ fontSize: '15px', fontWeight: 600 }}>{props.posterName}</b>
+    <div id={`twit-${props.uuid}`} className='card twit pb-2 my-3 justify-content-between'>
+      <div className='card-head px-0 py-1'>
+        <b style={{ fontSize: '15px', fontWeight: 600, textTransform: 'capitalize' }}>
+          {props.posterName}
+        </b>
       </div>
       <div
-        className='d-flex px-4 align-items-center justify-content-center card-img'
+        className='d-flex px-1 align-items-center justify-content-center card-img'
         style={{
           width: '100%',
           height: '350px',
           backgroundColor: '#eee',
         }}
       >
-        <img src={props.image} alt='icon' style={{width: '100%', height: '100%'}}/>
+        <img src={props.image} alt='icon' style={{ width: '100%', height: '100%' }} />
       </div>
-      <div className='card-actions d-flex justify-content-between align-items-center px-4 mt-2'>
+      <div className='card-actions d-flex justify-content-between align-items-center px-1 mt-2'>
         <LikeButton data={props} liked={localState.liked} likeHandler={likeHandler} />
         <Dropdown className='mx-1'>
           <Dropdown.Toggle variant='' className='p-0' style={{ height: '100%' }}>
@@ -158,35 +170,35 @@ const Twit = (props: any) => {
           </Dropdown.Toggle>
 
           <Dropdown.Menu className='drop-down-menu-custom-1'>
-            {(appState.user.userId === props.owner) 
-              ? <Dropdown.Item
-              as='div'
-              className='border-bottom py-2'
-              style={{ fontSize: '14px' }}
-              onClick={deleteHandler}
-            >
-              <div>Delete Post</div>
-            </Dropdown.Item> : null}
+            {appState.user.userId === props.owner ? (
+              <Dropdown.Item
+                as='div'
+                className='border-bottom py-2'
+                style={{ fontSize: '14px' }}
+                onClick={deleteHandler}
+              >
+                <div>Delete Post</div>
+              </Dropdown.Item>
+            ) : null}
           </Dropdown.Menu>
         </Dropdown>
       </div>
 
-      <div
-        className='card-subtitle d-flex align-items-center px-4'
-        style={{margin: '6px 0'}}
-      >
-        <i style={{
-          fontWeight: 400,
-          color: '#ccc',
-          fontSize: '13px',
-        }}>{`${new Date(props.createdAt).toUTCString()}`}</i>
+      <div className='card-subtitle d-flex align-items-center px-1' style={{ margin: '6px 0' }}>
+        <i
+          style={{
+            fontWeight: 400,
+            color: '#ccc',
+            fontSize: '13px',
+          }}
+        >{`${new Date(props.createdAt).toUTCString()}`}</i>
       </div>
 
-      <div className='card-body my-auto px-4'>
+      <div className='card-body my-auto px-1 py-2'>
         <b style={{ fontSize: '16px', fontWeight: 600 }}>{props.caption}</b>
       </div>
 
-      <div className='justify-content-between mt-auto px-4 pb-2'>
+      <div className='justify-content-between mt-auto px-0 pt-2'>
         <CommentForm data={props} postCommentHandler={postCommentHandler} />
       </div>
     </div>
