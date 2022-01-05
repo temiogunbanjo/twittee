@@ -1,8 +1,10 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Dropdown } from 'react-bootstrap';
+import { AppContext } from '../../context/AppContext';
 import { isFormValidated } from '../../utils/formUtils';
 import { getResponseData } from '../../utils/handleAPIResponse';
+import setAuthToken from '../../utils/setAuthToken';
 import { addToast } from '../../utils/toastNotifications';
 import { endpoints } from '../../utils/urls';
 
@@ -35,21 +37,24 @@ const CommentForm = (props: any) => {
   return (
     <form
       id={`form-${props.data.uuid}-comment-box`}
-      className='d-flex border border-rounded'
-      style={{ width: '100%' }}
+      className='d-flex border rounded-pill'
+      style={{ width: '100%', overflow: 'hidden' }}
     >
-      <input type='text' placeholder='type your comment...' className='border-0 flex-fill p-2' style={{fontWeight: 500}} />
-      <button onClick={props.postCommentHandler} className='border-0 px-3'>
-        P
+      <input type='text' placeholder='Type your comment...' className='border-0 flex-fill p-2' style={{fontWeight: 500, fontSize: '13px', backgroundColor: 'transparent'}} />
+      <button onClick={props.postCommentHandler} className='border-0 px-3' style={{backgroundColor: 'transparent'}}>
+        <i className='bi bi-send' style={{ fontSize: '20px' }}></i>
       </button>
     </form>
   );
 };
 
 const Twit = (props: any) => {
+  const { appState } = useContext(AppContext);
   const [localState, setLocalState]: any = useState({
     liked: false,
   });
+
+  // console.log(appState.user.userId, props.owner);
 
   const likeHandler = async (ev: any) => {
     setLocalState({ liked: !localState.liked });
@@ -106,15 +111,17 @@ const Twit = (props: any) => {
 
   const deleteHandler = async (ev: any) => {
     let url = `${endpoints.twits.manage.delete}`;
-    console.log(url);
+    console.log(appState.token);
 
     const payload = {
-      email: localState.email,
-      password: localState.password,
+      postId: props.uuid
     };
 
     try {
-      const response: any = await axios.post(url, payload);
+      setAuthToken();
+      const response: any = await axios.delete(url, {
+        data: payload
+      });
       const responseData: any = getResponseData(response);
 
       if (responseData) {
@@ -129,14 +136,14 @@ const Twit = (props: any) => {
   };
 
   return (
-    <div id={`twit-${props.uuid}`} className='card pb-2 my-3 justify-content-between'>
+    <div id={`twit-${props.uuid}`} className='card twit pb-2 my-3 justify-content-between'>
       <div className='card-head px-4'>
         <b style={{ fontSize: '15px', fontWeight: 600 }}>{props.posterName}</b>
       </div>
       <div
         className='d-flex px-4 align-items-center justify-content-center card-img'
         style={{
-          width: '500px',
+          width: '100%',
           height: '350px',
           backgroundColor: '#eee',
         }}
@@ -151,29 +158,28 @@ const Twit = (props: any) => {
           </Dropdown.Toggle>
 
           <Dropdown.Menu className='drop-down-menu-custom-1'>
-            <Dropdown.Item
+            {(appState.user.userId === props.owner) 
+              ? <Dropdown.Item
               as='div'
               className='border-bottom py-2'
               style={{ fontSize: '14px' }}
               onClick={deleteHandler}
             >
               <div>Delete Post</div>
-            </Dropdown.Item>
+            </Dropdown.Item> : null}
           </Dropdown.Menu>
         </Dropdown>
       </div>
 
       <div
         className='card-subtitle d-flex align-items-center px-4'
-        style={{
-          fontWeight: 400,
-          fontSize: '12px',
-          margin: '6px 0',
-        }}
+        style={{margin: '6px 0'}}
       >
         <i style={{
-          color: '#bbb',
-        }}>{`Posted at ${new Date(props.createdAt).toUTCString()}`}</i>
+          fontWeight: 400,
+          color: '#ccc',
+          fontSize: '13px',
+        }}>{`${new Date(props.createdAt).toUTCString()}`}</i>
       </div>
 
       <div className='card-body my-auto px-4'>

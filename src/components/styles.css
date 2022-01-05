@@ -404,6 +404,10 @@ form.styled > * {
   color: white;
 }
 
+.twit{
+  min-width: 450px;
+}
+
 @media only screen and (max-width: 1024px) {
   form.styled{
     min-width: 450px;
@@ -459,11 +463,13 @@ form.styled > * {
 
   .dashboard-section .summary-container .card{
     flex-grow: 1;
+    max-width: 450px;
   }
 
   .dashboard-section.new-entries .card{
     flex-grow: 1;
-    min-height: 380px;  
+    min-height: 380px;
+    
   }
 }
 
